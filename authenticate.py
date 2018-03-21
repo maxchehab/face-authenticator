@@ -1,25 +1,8 @@
 import face_recognition
 import cv2
 import time
-import os
 import subprocess
-
-
-def is_locked():
-    if "true" in str(subprocess.check_output(['./islocked.sh'], preexec_fn=demote(1000, 1000))):
-        return True
-    return False
-
-
-def demote(user_uid, user_gid):
-    """Pass the function 'set_ids' to preexec_fn, rather than just calling
-    setuid and setgid. This will change the ids for that subprocess only"""
-
-    def set_ids():
-        os.setgid(user_gid)
-        os.setuid(user_uid)
-
-    return set_ids
+import sys
 
 
 def authorize_face_encodings(face_encodings, authorized_face_encoding):
@@ -67,16 +50,21 @@ def authenticate():
             print("not authorized")
 
 
-while True:
-    if(is_locked()):
-        # Get a reference to webcam #0 (the default one)
-        video_capture = cv2.VideoCapture(0)
-
-        # Load the authorized picture and learn how to recognize it.
-        authorized_image = face_recognition.load_image_file(
-            "authorized/admin.jpg")
-        authorized_face_encoding = face_recognition.face_encodings(authorized_image)[
-            0]
-        authenticate()
-        video_capture.release()
-        cv2.destroyAllWindows()
+try:
+    with open("/opt/face-authenticator/test.log", "a") as logfile:
+        logfile.write("hello world\n")
+    # Get a reference to webcam #0 (the default one)
+    video_capture = cv2.VideoCapture(0)
+    # Load the authorized picture and learn how to recognize it.
+    authorized_image = face_recognition.load_image_file(
+        "authorized/admin.jpg")
+    authorized_face_encoding = face_recognition.face_encodings(authorized_image)[
+        0]
+    authenticate()
+    video_capture.release()
+    cv2.destroyAllWindows()
+except:  # catch *all* exceptions
+    e = sys.exc_info()[0]
+    with open("/opt/face-authenticator/test.log", "a") as logfile:
+        logfile.write(str(e))
+        logfile.write("\n")
