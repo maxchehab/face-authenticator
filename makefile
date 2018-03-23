@@ -1,9 +1,12 @@
 install:
-	sudo mkdir -p /opt/face-authenticator/authorized
-	sudo cp authenticate.py /opt/face-authenticator/authenticate.py
-	sudo cp islocked.sh /opt/face-authenticator/islocked.sh
-	sudo cp start.sh /opt/face-authenticator/start.sh
-	sudo chmod +X /opt/face-authenticator/start.sh
-	#greeter-setup-script=/opt/face-authenticator/start.sh
+	mkdir -p $(HOME)/.face-authenticator/authorized
+	cp authenticate.py $(HOME)/.face-authenticator/authenticate.py
+	# sudo cp face-authentication.service /etc/systemd/system/face-authentication.service
+	cp start.sh $(HOME)/.face-authenticator/start.sh
+	chmod +x $(HOME)/.face-authenticator/start.sh
+	# sudo systemctl daemon-reload
+	# sudo systemctl enable face-authentication
+	# sudo systemctl start face-authentication
+
 authorize:
-	sudo cp $(image) /opt/face-authenticator/admin.jpg
+	cp $(image) $(HOME)/.face-authenticator/admin.jpg

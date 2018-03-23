@@ -18,10 +18,16 @@ def authorize_face_encodings(face_encodings, authorized_face_encoding):
 
 
 def unlock():
-    subprocess.call(["loginctl", "unlock-sessions"])
+    subprocess.call((["gnome-screensaver-command", "-d"]))
 
+def is_locked():
+    result = str(subprocess.check_output(['gnome-screensaver-command', '-q']))
+    print(result)
+    if "is active" in result:
+        return True
+    return False
 
-def authenticate():
+def authenticate(video_capture):
     while True:
         # Grab a single frame of video
         _, frame = video_capture.read()
@@ -50,21 +56,19 @@ def authenticate():
             print("not authorized")
 
 
-try:
-    with open("/opt/face-authenticator/test.log", "a") as logfile:
-        logfile.write("hello world\n")
-    # Get a reference to webcam #0 (the default one)
-    video_capture = cv2.VideoCapture(0)
-    # Load the authorized picture and learn how to recognize it.
-    authorized_image = face_recognition.load_image_file(
-        "authorized/admin.jpg")
-    authorized_face_encoding = face_recognition.face_encodings(authorized_image)[
-        0]
-    authenticate()
-    video_capture.release()
-    cv2.destroyAllWindows()
-except:  # catch *all* exceptions
-    e = sys.exc_info()[0]
-    with open("/opt/face-authenticator/test.log", "a") as logfile:
-        logfile.write(str(e))
-        logfile.write("\n")
+
+while True:
+    if(is_locked()):
+        print("getting reference to camera")
+        # Get a reference to webcam #0 (the default one)
+        video_capture = cv2.VideoCapture(0)
+        print("loading authorized image")
+        # Load the authorized picture and learn how to recognize it.
+        authorized_image = face_recognition.load_image_file("/home/maxchehab/.face-authenticator/admin.jpg")
+        authorized_face_encoding = face_recognition.face_encodings(authorized_image)[0]
+        print("authenticating")
+        authenticate(video_capture)
+        print("releasing")
+        video_capture.release()
+        cv2.destroyAllWindows()
+    

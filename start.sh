@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo /usr/bin/python3 /opt/face-authenticator/authenticate.py &
+/usr/bin/python3 $HOME/.face-authenticator/authenticate.py > $HOME/.face-authenticator/log.log
