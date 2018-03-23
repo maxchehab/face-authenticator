@@ -4,6 +4,9 @@ import time
 import subprocess
 import sys
 
+from os.path import expanduser
+HOME = expanduser("~")
+
 
 def authorize_face_encodings(face_encodings, authorized_face_encoding):
     for face_encoding in face_encodings:
@@ -54,9 +57,7 @@ def authenticate(video_capture):
             break
         else:
             print("not authorized")
-
-
-
+            
 while True:
     if(is_locked()):
         print("getting reference to camera")
@@ -64,7 +65,7 @@ while True:
         video_capture = cv2.VideoCapture(0)
         print("loading authorized image")
         # Load the authorized picture and learn how to recognize it.
-        authorized_image = face_recognition.load_image_file("/home/maxchehab/.face-authenticator/admin.jpg")
+        authorized_image = face_recognition.load_image_file(HOME + "/.face-authenticator/admin.jpg")
         authorized_face_encoding = face_recognition.face_encodings(authorized_image)[0]
         print("authenticating")
         authenticate(video_capture)

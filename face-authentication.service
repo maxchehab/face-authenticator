@@ -1,8 +1,0 @@
-[Unit]
-Description=Face Authentication service
-
-[Service]
-ExecStart=sudo -u maxchehab /usr/bin/python3 /opt/face-authenticator/authenticate.py
-
-[Install]
-WantedBy=multi-user.target

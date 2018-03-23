@@ -29,11 +29,11 @@ def authorize_face_encodings(face_encodings, authorized_face_encoding):
 
 
 def lock():
-    subprocess.call(["loginctl", "lock-sessions"])
+    subprocess.call(["gnome-screensaver-command", "-l"])
 
 
 def unlock():
-    subprocess.call(["loginctl", "unlock-sessions"])
+    subprocess.call(["gnome-screensaver-command", "-d"])
 
 
 try:

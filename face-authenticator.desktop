@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=$HOME/.face-authenticator/start.sh
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=face-authenticator
+Name=face-authenticator
+Comment[en_US]=
+Comment=
