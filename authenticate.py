@@ -25,13 +25,18 @@ def unlock():
 
 def is_locked():
     result = str(subprocess.check_output(['gnome-screensaver-command', '-q']))
-    # print(result)
     if "is active" in result:
         return True
     return False
 
+def is_open():
+    result = str(subprocess.check_output(['cat', '/proc/acpi/button/lid/LID0/state']))
+    if "open" in result:
+        return True
+    return False
+
 def authenticate(video_capture):
-    while True:
+    while is_open():
         # Grab a single frame of video
         _, frame = video_capture.read()
 
@@ -52,24 +57,17 @@ def authenticate(video_capture):
             authorized_face_encoding)
 
         if(authorized_user_present):
-            # print("authorized")
             unlock()
             break
-        else:
-            # print("not authorized")
 
 while True:
-    if(is_locked()):
-        # print("getting reference to camera")
+    if(is_locked() and is_open()):
         # Get a reference to webcam #0 (the default one)
         video_capture = cv2.VideoCapture(0)
-        # print("loading authorized image")
         # Load the authorized picture and learn how to recognize it.
         authorized_image = face_recognition.load_image_file(HOME + "/.face-authenticator/admin.jpg")
         authorized_face_encoding = face_recognition.face_encodings(authorized_image)[0]
-        # print("authenticating")
         authenticate(video_capture)
-        # print("releasing")
         video_capture.release()
         cv2.destroyAllWindows()
     

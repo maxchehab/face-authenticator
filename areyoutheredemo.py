@@ -63,7 +63,7 @@ try:
                 lock()
 
             print("Authorized user present: ",
-                  authorized_user_present)
+                    authorized_user_present)
 
         process_this_frame += 1
 
