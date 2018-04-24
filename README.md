@@ -11,16 +11,6 @@ This drasticaly increases the risk of a random stranger unlocking your computer.
 
 I can only confirm this program works with Ubuntu 17.10 and Gnome 3.
 
-This program requires python3, opencv, and the face_recognition library.
-
-```bash
-    apt install python3 python3-pip
-    pip3 install opencv-python
-    pip3 install face_recognition
-```
-
-Once the dependencies have installed...
-
 ```
     git clone https://github.com/maxchehab/face-authenticator
     cd face-authenticator
