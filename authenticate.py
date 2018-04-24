@@ -65,7 +65,7 @@ while True:
         # Get a reference to webcam #0 (the default one)
         video_capture = cv2.VideoCapture(0)
         # Load the authorized picture and learn how to recognize it.
-        authorized_image = face_recognition.load_image_file(HOME + "/.face-authenticator/admin.jpg")
+        authorized_image = face_recognition.load_image_file(HOME + "/.face-authenticator/authorized/admin.jpg")
         authorized_face_encoding = face_recognition.face_encodings(authorized_image)[0]
         authenticate(video_capture)
         video_capture.release()
